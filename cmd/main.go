@@ -2,12 +2,15 @@ package main
 
 import (
 	"log"
+	"simple-rest-api/internal/infrastructure/config"
 
 	"github.com/gofiber/fiber/v2"
 )
 
 func main() {
 	app := fiber.New()
+
+	configuration := config.Load()
 
 	app.Get("/", func(ctx *fiber.Ctx) error {
 		return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
@@ -16,5 +19,5 @@ func main() {
 		})
 	})
 
-	log.Fatal(app.Listen(":3000"))
+	log.Fatal(app.Listen(configuration.Host.Host + ":" + configuration.Host.Port))
 }
